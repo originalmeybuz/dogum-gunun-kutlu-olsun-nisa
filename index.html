@@ -73,6 +73,30 @@
     </style>
 </head>
 <body>
+    
+        <audio id="birthdayMusic" src="dogumgunuhayaletleri.mp3" loop hidden></audio>
+
+        ```
+
+3.  Sayfanın en altındaki **JavaScript** bölümünü bul (`<script src="https://cdn.jsdelivr.net/npm/canvas-confetti...` başlayan yer). Mevcut tüm JavaScript kodunun **hemen altına**, müziği otomatik başlatmaya yarayan şu kodu ekle:
+
+```javascript
+        // ... Mevcut konfeti kodu burada bitiyor ...
+
+        // OTOMATİK MÜZİK BAŞLATMA KODU:
+        // Tarayıcı kısıtlamalarını aşmak için, kullanıcı sayfaya tıklar tıklamaz müziği başlatır.
+        document.addEventListener('click', function() {
+            var music = document.getElementById('birthdayMusic');
+            // Müziğin başlamadığından emin ol
+            if (music.paused) { 
+                music.play().catch(function(error) {
+                    console.log('Müzik otomatik başlatılamadı:', error);
+                });
+            }
+        }, { once: true }); // Sadece ilk tıklamada çalıştır
+    </script>
+</body>
+</html>
 
     <div class="background-photo">
         <img src="enguzel.jpg" alt="Dogum Gunu">
