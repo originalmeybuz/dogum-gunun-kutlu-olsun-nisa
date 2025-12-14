@@ -14,110 +14,70 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); /* Hafif gri-beyaz arka plan */
+            /* Arka plan rengini buradan değiştirebilirsin */
+            background-color: #000; 
             font-family: 'Great Vibes', cursive;
-            text-align: center;
             overflow: hidden;
+            position: relative;
         }
 
-        .container {
+        /* Fotoğrafı Arka Plan Yapma Ayarı */
+        .background-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.6; /* Fotoğrafı biraz soluklaştırır ki yazı okunsun (0.1 ile 1 arası) */
+        }
+        
+        .background-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Resmi ekrana doldurur */
+            object-position: center;
+        }
+
+        .content {
             position: relative;
             z-index: 10;
+            text-align: center;
             padding: 20px;
         }
 
-        /* Fotoğraf Stili */
-        .photo-frame {
-            width: 250px;
-            height: 250px;
-            margin: 0 auto 30px;
-            border-radius: 50%; /* Yuvarlak resim */
-            border: 5px solid #ff6b6b; /* Çerçeve rengi */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            overflow: hidden;
-            background-color: #fff;
-        }
-
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Yazı Stili */
         h1 {
-            font-size: 4rem;
-            color: #ff6b6b;
+            font-size: 5rem; /* Yazı boyutu */
+            color: #fff; /* Yazı rengi beyaz */
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: bounce 2s infinite;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(255, 105, 180, 0.6); /* Yazının arkasına gölge */
+            animation: pulse 2s infinite;
         }
 
         p {
-            font-size: 2rem;
-            color: #555;
-            margin-top: 10px;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(0,0,0,0.9);
         }
 
-        /* Ufak bir zıplama animasyonu */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        
-        /* Mobilde yazı boyutunu ayarla */
+
         @media (max-width: 600px) {
-            h1 { font-size: 3rem; }
-            .photo-frame { width: 200px; height: 200px; }
+            h1 { font-size: 3.5rem; }
+            p { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="photo-frame">
-            <img src="arkadasim.jpg" alt="Doğum Günü Çocuğu">
-        </div>
-        <h1>Doğum Günün Kutlu Olsun!</h1>
-        <p>Nice mutlu, sağlıklı yaşlara...</p>
+    <div class="background-photo">
+        <img src="enguzel.jpg" alt="Dogum Gunu">
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script>
-        // Sayfa yüklendiğinde konfeti patlat
-        window.onload = function() {
-            var duration = 3 * 1000; // 3 saniye sürsün
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
-
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
-                var particleCount = 50 * (timeLeft / duration);
-                
-                // Ekranın rastgele yerlerinden konfeti fırlat
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
-        };
-
-        // Ekrana tıklandığında tekrar konfeti patlat
-        document.addEventListener('click', function() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-        });
-    </script>
-</body>
-</html>
+    <div class="content">
+        <h1>Doğum Günün Kutlu Olsun!</h1>
+        <p>İyi
