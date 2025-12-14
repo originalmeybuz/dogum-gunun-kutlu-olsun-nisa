@@ -14,7 +14,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Arka plan rengi (Fotoğraf yüklenmezse bu görünür) */
             background-color: #000; 
             font-family: 'Great Vibes', cursive;
             overflow: hidden;
@@ -39,6 +38,7 @@
             object-position: center;
         }
 
+        /* Yazıların bulunduğu ana kutu */
         .content {
             position: relative;
             z-index: 10;
@@ -48,7 +48,7 @@
 
         h1 {
             font-size: 5rem; 
-            color: #fff; /* Yazı rengi beyaz */
+            color: #fff; 
             margin: 0;
             text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(255, 105, 180, 0.6); 
             animation: pulse 2s infinite;
@@ -58,7 +58,7 @@
             font-size: 2.5rem;
             color: #fff;
             text-shadow: 0 0 5px rgba(0,0,0,0.9);
-            margin-top: 10px; /* H1'den sonra biraz boşluk */
+            margin-top: 10px;
         }
 
         @keyframes pulse {
@@ -67,7 +67,18 @@
             100% { transform: scale(1); }
         }
 
+        /* MOBİL CİHAZ DÜZELTMESİ: Yazıları en alta kaydırır */
         @media (max-width: 600px) {
+            body {
+                /* Merkezleme ayarını değiştiriyoruz */
+                justify-content: flex-end; /* İçeriği dikeyde en alta hizala */
+                padding-bottom: 50px; /* Alttan biraz boşluk bırak */
+            }
+            .content {
+                /* Mobil cihazlarda content kutusunun genişliğini ayarla */
+                width: 100%; 
+                box-sizing: border-box;
+            }
             h1 { font-size: 3.5rem; }
             p { font-size: 1.5rem; }
         }
@@ -103,7 +114,7 @@
             confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
         }, 250);
 
-        // OTOMATİK MÜZİK BAŞLATMA (Kullanıcı ilk tıkladığında müzik başlar ve konfeti patlar)
+        // OTOMATİK MÜZİK BAŞLATMA VE EK KONFETİ
         document.addEventListener('click', function() {
             var music = document.getElementById('birthdayMusic');
             if (music.paused) { 
@@ -111,9 +122,8 @@
                     console.log('Müzik otomatik başlatılamadı:', error);
                 });
             }
-            // Tıkladığında ek konfeti patlat
             confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
-        }, { once: true }); // Müzik sadece ilk tıklamada başlar
+        }, { once: true });
     </script>
 </body>
 </html>
