@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Arka plan rengini buradan değiştirebilirsin */
+            /* Arka plan rengi (Fotoğraf yüklenmezse bu görünür) */
             background-color: #000; 
             font-family: 'Great Vibes', cursive;
             overflow: hidden;
@@ -29,7 +29,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            opacity: 0.6; /* Fotoğrafı biraz soluklaştırır ki yazı okunsun (0.1 ile 1 arası) */
+            opacity: 0.6; /* Fotoğrafı biraz soluklaştırır ki yazı okunsun */
         }
         
         .background-photo img {
@@ -47,10 +47,10 @@
         }
 
         h1 {
-            font-size: 5rem; /* Yazı boyutu */
+            font-size: 5rem; 
             color: #fff; /* Yazı rengi beyaz */
             margin: 0;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(255, 105, 180, 0.6); /* Yazının arkasına gölge */
+            text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(255, 105, 180, 0.6); 
             animation: pulse 2s infinite;
         }
 
@@ -58,6 +58,7 @@
             font-size: 2.5rem;
             color: #fff;
             text-shadow: 0 0 5px rgba(0,0,0,0.9);
+            margin-top: 10px; /* H1'den sonra biraz boşluk */
         }
 
         @keyframes pulse {
@@ -73,30 +74,8 @@
     </style>
 </head>
 <body>
-    
-        <audio id="birthdayMusic" src="dogumgunuhayaletleri.mp3" loop hidden></audio>
 
-        ```
-
-3.  Sayfanın en altındaki **JavaScript** bölümünü bul (`<script src="https://cdn.jsdelivr.net/npm/canvas-confetti...` başlayan yer). Mevcut tüm JavaScript kodunun **hemen altına**, müziği otomatik başlatmaya yarayan şu kodu ekle:
-
-```javascript
-        // ... Mevcut konfeti kodu burada bitiyor ...
-
-        // OTOMATİK MÜZİK BAŞLATMA KODU:
-        // Tarayıcı kısıtlamalarını aşmak için, kullanıcı sayfaya tıklar tıklamaz müziği başlatır.
-        document.addEventListener('click', function() {
-            var music = document.getElementById('birthdayMusic');
-            // Müziğin başlamadığından emin ol
-            if (music.paused) { 
-                music.play().catch(function(error) {
-                    console.log('Müzik otomatik başlatılamadı:', error);
-                });
-            }
-        }, { once: true }); // Sadece ilk tıklamada çalıştır
-    </script>
-</body>
-</html>
+    <audio id="birthdayMusic" src="dogumgunuhayaletleri.mp3" loop hidden></audio>
 
     <div class="background-photo">
         <img src="enguzel.jpg" alt="Dogum Gunu">
@@ -105,3 +84,36 @@
     <div class="content">
         <h1>Doğum Günün Kutlu Olsun!</h1>
         <p>İyi ki doğdun, iyi ki varsın...</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // SÜREKLİ KONFETİ YAĞMURU
+        var duration = 15 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+        var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+            var particleCount = 50 * (timeLeft / duration);
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+
+        // OTOMATİK MÜZİK BAŞLATMA (Kullanıcı ilk tıkladığında müzik başlar ve konfeti patlar)
+        document.addEventListener('click', function() {
+            var music = document.getElementById('birthdayMusic');
+            if (music.paused) { 
+                music.play().catch(function(error) {
+                    console.log('Müzik otomatik başlatılamadı:', error);
+                });
+            }
+            // Tıkladığında ek konfeti patlat
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+        }, { once: true }); // Müzik sadece ilk tıklamada başlar
+    </script>
+</body>
+</html>
